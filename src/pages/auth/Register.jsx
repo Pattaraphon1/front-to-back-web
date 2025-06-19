@@ -2,17 +2,23 @@ import FormInput from '../../components/form/FormInput'
 import { createAlert } from '../../utils/createAlert';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
+import Buttons from '../../components/form/Buttons';
 
 function Register() {
 
-  const {handleSubmit, register} = useForm()
+  const {handleSubmit, register, formState} = useForm()
+  const {isSubmitting} = formState;
 
 const hdlSubmit = async(value)=>{
-  console.log(value)
+  await new Promise((resolve)=> setTimeout(resolve,2000))
 
   try{
-    const res = await axios.post('http://localhost:8000/auth/register',value)
+    const res = await axios.post(
+      'http://localhost:8000/auth/register',
+      value
+    );
     console.log(res)
+    createAlert("success", res.data.message)
   }catch(error){
     console.log(error)
     createAlert("info", error.response?.data?.message)
@@ -29,16 +35,16 @@ const hdlSubmit = async(value)=>{
         {/* Form */}
         <form onSubmit={handleSubmit(hdlSubmit)}>
           <div className='flex flex-col gap-4'>
-            <FormInput register={register} name="email:" />
-            <FormInput register={register} name="name:" />
-            <FormInput register={register} name="password:" />
-            <FormInput register={register} name="confirmPassword:" />
+            <FormInput register={register} name="email" />
+            <FormInput register={register} name="name" />
+            <FormInput register={register} name="password" />
+            <FormInput register={register} name="confirmPassword" />
           </div>
 
           <div className='flex justify-center mt-4'>
-          <button className='bg-black text-white rounded-md p-2'>Register</button>
-          </div>
+            <Buttons label={"Register"} isSubmitting={isSubmitting}/>
 
+          </div>
         </form>
       </div>
     </div>)
