@@ -46,6 +46,7 @@ function Manage() {
         const res = await actionDeleteUser(token, id);
         console.log(res)
         createAlert("success", res.data.message)
+        fetchUsers();
       } catch (error) {
         console.log(error)
       }
@@ -53,8 +54,8 @@ function Manage() {
   };
 
   return (
-    <div >
-      <table className="table-auto">
+    <div>
+      <table className="table-auto flex flex-col text-center p-3 items-center ">
         <thead>
           <tr>
             <th>No.</th>
